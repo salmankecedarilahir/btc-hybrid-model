@@ -14,10 +14,8 @@
             --bg-border: #1a1a1a;
             --bg-hover: #242424;
             --accent: #ff9500;
-            --accent-dim: #cc7700;
             --up: #00dc82;
             --down: #f85149;
-            --neutral: #666666;
             --text-primary: #ffffff;
             --text-secondary: #999999;
             --text-muted: #555555;
@@ -30,15 +28,14 @@
             background: var(--bg-primary);
             color: var(--text-primary);
             font-size: 12px;
-            overflow: hidden;
+            overflow-x: hidden;
         }
         .mono { font-family: 'IBM Plex Mono', monospace; }
         ::-webkit-scrollbar { width: 4px; }
         ::-webkit-scrollbar-track { background: var(--bg-primary); }
         ::-webkit-scrollbar-thumb { background: var(--bg-border); }
-        ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
         
-        /* LAYOUT UTAMA */
+        /* DESKTOP LAYOUT */
         .terminal {
             display: grid;
             grid-template-columns: 320px 1fr 340px;
@@ -46,7 +43,6 @@
             height: 100vh;
             gap: 2px;
             padding: 2px;
-            background: var(--bg-primary);
         }
         
         /* HEADER */
@@ -60,49 +56,41 @@
             padding: 0 12px;
         }
         .header-left { display: flex; align-items: center; gap: 16px; }
-        .logo { font-weight: 700; font-size: 14px; letter-spacing: 1px; display: flex; align-items: center; gap: 8px; }
+        .logo { font-weight: 700; font-size: 14px; display: flex; align-items: center; gap: 8px; }
         .logo-symbol { background: var(--accent); color: #000; padding: 3px 8px; font-weight: 700; font-size: 11px; }
         .status-badge { display: flex; align-items: center; gap: 6px; font-size: 10px; color: var(--text-secondary); }
         .status-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--up); animation: pulse 2s infinite; }
         @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
         .header-right { display: flex; align-items: center; gap: 12px; }
         .header-time { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--text-secondary); }
-        .btn { background: var(--bg-panel); border: 1px solid var(--bg-border); color: var(--text-primary); padding: 4px 12px; font-size: 10px; font-weight: 600; cursor: pointer; text-transform: uppercase; transition: all 0.2s; }
+        .btn { background: var(--bg-panel); border: 1px solid var(--bg-border); color: var(--text-primary); padding: 4px 12px; font-size: 10px; font-weight: 600; cursor: pointer; text-transform: uppercase; }
         .btn:hover { border-color: var(--accent); color: var(--accent); }
         
         /* PANELS */
         .panel { background: var(--bg-panel); border: 1px solid var(--bg-border); display: flex; flex-direction: column; overflow: hidden; }
-        .panel-header { background: var(--bg-header); border-bottom: 1px solid var(--bg-border); padding: 6px 12px; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-secondary); display: flex; align-items: center; justify-content: space-between; }
+        .panel-header { background: var(--bg-header); border-bottom: 1px solid var(--bg-border); padding: 6px 12px; font-size: 10px; font-weight: 700; text-transform: uppercase; color: var(--text-secondary); display: flex; align-items: center; justify-content: space-between; }
         .panel-header.accent { border-bottom-color: var(--accent); color: var(--accent); }
         .panel-content { padding: 10px; overflow-y: auto; }
         
-        /* LEFT SIDEBAR - PORTFOLIO + NEWS */
+        /* LEFT SIDEBAR */
         .sidebar-left { grid-row: 2 / 4; display: flex; flex-direction: column; gap: 2px; }
-        
-        /* PORTFOLIO SECTION */
         .portfolio-section { flex: 0 0 auto; }
         .metric-card { background: var(--bg-secondary); border: 1px solid var(--bg-border); padding: 12px; margin-bottom: 6px; }
-        .metric-label { font-size: 9px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
-        .metric-value { font-family: 'IBM Plex Mono', monospace; font-size: 20px; font-weight: 700; color: var(--text-primary); }
+        .metric-label { font-size: 9px; color: var(--text-muted); text-transform: uppercase; margin-bottom: 4px; }
+        .metric-value { font-family: 'IBM Plex Mono', monospace; font-size: 20px; font-weight: 700; }
         .metric-value.up { color: var(--up); }
         .metric-value.down { color: var(--down); }
         .metric-value.neutral { color: #00a8ff; }
         .metric-sub { font-family: 'IBM Plex Mono', monospace; font-size: 10px; margin-top: 4px; color: var(--text-secondary); }
         .metric-sub.up { color: var(--up); }
         .metric-sub.down { color: var(--down); }
-        
-        /* AI METRICS */
         .ai-metrics { flex: 0 0 auto; }
-        
-        /* RISK MANAGEMENT - COMPACT */
         .risk-section { flex: 0 0 auto; }
         .info-list { font-size: 10px; }
         .info-row { display: flex; justify-content: space-between; padding: 4px 0; border-bottom: 1px solid var(--bg-border); }
         .info-row:last-child { border-bottom: none; }
         .info-label { color: var(--text-muted); }
         .info-value { color: var(--text-primary); font-weight: 600; text-align: right; }
-        
-        /* NEWS SENTIMENT */
         .news-section { flex: 1; min-height: 0; }
         .sentiment-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; padding: 8px; }
         .sent-card { background: var(--bg-secondary); border: 1px solid var(--bg-border); padding: 10px; text-align: center; }
@@ -114,50 +102,46 @@
         .news-list { overflow-y: auto; max-height: 200px; }
         .news-item { padding: 6px 10px; border-bottom: 1px solid var(--bg-border); font-size: 11px; }
         .news-item:last-child { border-bottom: none; }
-        .news-item:hover { background: var(--bg-hover); }
         
-        /* MAIN CONTENT - CHART + TRADES */
+        /* MAIN CONTENT */
         .main-content { grid-row: 2 / 3; display: flex; flex-direction: column; gap: 2px; overflow: hidden; }
         .chart-panel { flex: 1; background: var(--bg-panel); border: 1px solid var(--bg-border); min-height: 0; }
         .chart-widget { width: 100%; height: 100%; }
-        
-        /* TRADES TABLE */
         .trades-panel { height: 260px; background: var(--bg-panel); border: 1px solid var(--bg-border); overflow: hidden; }
         .trades-table { width: 100%; border-collapse: collapse; font-family: 'IBM Plex Mono', monospace; font-size: 10px; }
         .trades-table th { background: var(--bg-header); padding: 5px 8px; text-align: left; font-weight: 600; color: var(--text-secondary); text-transform: uppercase; font-size: 9px; border-bottom: 1px solid var(--accent); }
-        .trades-table td { padding: 5px 8px; border-bottom: 1px solid var(--bg-border); color: var(--text-primary); }
+        .trades-table td { padding: 5px 8px; border-bottom: 1px solid var(--bg-border); }
         .trades-table tr:hover { background: var(--bg-hover); }
-        .tag { display: inline-block; padding: 2px 6px; font-size: 9px; font-weight: 700; text-transform: uppercase; border: 1px solid; }
+        .tag { display: inline-block; padding: 2px 6px; font-size: 9px; font-weight: 700; border: 1px solid; }
         .tag-long { background: rgba(0, 220, 130, 0.15); color: var(--up); border-color: var(--up); }
         .tag-short { background: rgba(248, 81, 73, 0.15); color: var(--down); border-color: var(--down); }
-        .tag-hold { background: rgba(102, 102, 102, 0.2); color: var(--neutral); border-color: var(--neutral); }
+        .tag-hold { background: rgba(102, 102, 102, 0.2); color: var(--text-muted); border-color: var(--text-muted); }
         
-        /* RIGHT SIDEBAR - ORDER BOOK FULL HEIGHT */
+        /* RIGHT SIDEBAR */
         .sidebar-right { grid-row: 2 / 4; display: flex; flex-direction: column; gap: 2px; }
         .orderbook-panel { flex: 1; display: flex; flex-direction: column; min-height: 0; }
-        .orderbook-container { flex: 1; overflow-y: auto; font-family: 'IBM Plex Mono', monospace; font-size: 10px; min-height: 0; }
-        .ob-header { display: grid; grid-template-columns: 1fr 1fr 1fr; padding: 5px 8px; background: var(--bg-header); border-bottom: 1px solid var(--bg-border); font-size: 9px; font-weight: 600; color: var(--text-secondary); text-transform: uppercase; }
-        .ob-row { display: grid; grid-template-columns: 1fr 1fr 1fr; padding: 3px 8px; cursor: pointer; }
-        .ob-row:hover { background: var(--bg-hover); }
+        .orderbook-container { flex: 1; overflow-y: auto; font-family: 'IBM Plex Mono', monospace; font-size: 10px; }
+        .ob-header { display: grid; grid-template-columns: 1fr 1fr 1fr; padding: 5px 8px; background: var(--bg-header); border-bottom: 1px solid var(--bg-border); font-size: 9px; color: var(--text-secondary); }
+        .ob-row { display: grid; grid-template-columns: 1fr 1fr 1fr; padding: 3px 8px; }
         .ob-row.bid { background: var(--bid-bg); border-left: 2px solid rgba(0, 220, 130, 0.4); }
         .ob-row.ask { background: var(--ask-bg); border-left: 2px solid rgba(248, 81, 73, 0.4); }
         .ob-price, .ob-size, .ob-total { text-align: right; padding: 0 4px; }
         .ob-price:first-child { text-align: left; }
         .bid .ob-price { color: var(--up); }
         .ask .ob-price { color: var(--down); }
-        .spread-bar { background: var(--bg-header); padding: 6px 10px; border-top: 1px solid var(--bg-border); border-bottom: 1px solid var(--bg-border); display: flex; justify-content: space-between; align-items: center; font-size: 10px; }
+        .spread-bar { background: var(--bg-header); padding: 6px 10px; border-top: 1px solid var(--bg-border); border-bottom: 1px solid var(--bg-border); display: flex; justify-content: space-between; font-size: 10px; }
         .spread-value { color: #ffd700; font-weight: 700; }
         
-        /* DERIVATIVES - BELOW CHART */
+        /* DERIVATIVES */
         .derivatives-panel { grid-column: 2 / 3; grid-row: 3 / 4; background: var(--bg-panel); border: 1px solid var(--bg-border); overflow: hidden; }
-        .deriv-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; padding: 10px; height: 100%; align-content: start; }
+        .deriv-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; padding: 10px; }
         .deriv-card { background: var(--bg-secondary); border: 1px solid var(--bg-border); padding: 10px; }
         .deriv-label { font-size: 9px; color: var(--text-muted); text-transform: uppercase; margin-bottom: 4px; }
-        .deriv-value { font-family: 'IBM Plex Mono', monospace; font-size: 15px; font-weight: 700; color: var(--text-primary); }
+        .deriv-value { font-family: 'IBM Plex Mono', monospace; font-size: 15px; font-weight: 700; }
         .deriv-sub { font-family: 'IBM Plex Mono', monospace; font-size: 9px; margin-top: 4px; color: var(--text-secondary); }
         
-        /* BOTTOM PANEL - NEWS */
-        .bottom-panel { grid-column: 1 / 2; grid-row: 3 / 4; display: flex; flex-direction: column; gap: 2px; overflow: hidden; }
+        /* BOTTOM PANEL */
+        .bottom-panel { grid-column: 1 / 2; grid-row: 3 / 4; display: flex; flex-direction: column; gap: 2px; }
         
         /* UTILS */
         .loading { text-align: center; padding: 30px; color: var(--text-muted); font-size: 11px; }
@@ -166,7 +150,41 @@
         .text-accent { color: var(--accent); }
         .text-blue { color: #00a8ff; }
         .text-yellow { color: #ffd700; }
-        .border-accent { border-color: var(--accent); }
+        
+        /* MOBILE RESPONSIVE */
+        @media (max-width: 1200px) {
+            .terminal {
+                grid-template-columns: 280px 1fr 300px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .terminal {
+                grid-template-columns: 1fr;
+                grid-template-rows: 48px auto auto auto auto auto;
+                height: auto;
+                min-height: 100vh;
+            }
+            .header { position: sticky; top: 0; z-index: 100; }
+            .sidebar-left, .main-content, .sidebar-right, .derivatives-panel, .bottom-panel {
+                grid-column: 1 / -1;
+                grid-row: auto;
+            }
+            .chart-panel { min-height: 400px; }
+            .trades-panel { overflow-x: auto; }
+            .trades-table { min-width: 600px; }
+            .deriv-grid { grid-template-columns: 1fr 1fr; }
+            .sentiment-grid { grid-template-columns: 1fr 1fr; }
+            .logo span { display: none; }
+            .header-time { display: none; }
+        }
+        
+        @media (max-width: 480px) {
+            .deriv-grid { grid-template-columns: 1fr; }
+            .sentiment-grid { grid-template-columns: 1fr; }
+            .metric-value { font-size: 16px; }
+            .sent-value { font-size: 16px; }
+        }
     </style>
 </head>
 <body>
@@ -191,7 +209,6 @@
 
         <!-- LEFT SIDEBAR -->
         <aside class="sidebar-left">
-            <!-- PORTFOLIO -->
             <div class="panel portfolio-section">
                 <div class="panel-header accent">📊 PORTFOLIO</div>
                 <div class="panel-content">
@@ -220,7 +237,6 @@
                 </div>
             </div>
 
-            <!-- AI METRICS -->
             <div class="panel ai-metrics">
                 <div class="panel-header">🤖 AI METRICS</div>
                 <div class="panel-content">
@@ -239,7 +255,6 @@
                 </div>
             </div>
 
-            <!-- RISK MANAGEMENT -->
             <div class="panel risk-section">
                 <div class="panel-header">⚡ RISK</div>
                 <div class="panel-content">
@@ -253,7 +268,6 @@
                 </div>
             </div>
 
-            <!-- NEWS SENTIMENT -->
             <div class="panel news-section">
                 <div class="panel-header">📰 NEWS SENTIMENT</div>
                 <div class="panel-content" style="padding: 0;">
@@ -304,7 +318,7 @@
             </div>
         </main>
 
-        <!-- RIGHT SIDEBAR - ORDER BOOK -->
+        <!-- RIGHT SIDEBAR -->
         <aside class="sidebar-right">
             <div class="panel orderbook-panel">
                 <div class="panel-header accent">
@@ -312,7 +326,7 @@
                     <span class="mono" id="orderbookStatus">● LIVE</span>
                 </div>
                 <div class="orderbook-container" id="orderbookContainer">
-                    <div class="ob-header"><span>PRICE (USDT)</span><span>SIZE (BTC)</span><span>TOTAL</span></div>
+                    <div class="ob-header"><span>PRICE</span><span>SIZE</span><span>TOTAL</span></div>
                     <div id="orderbookAsks"></div>
                     <div class="spread-bar"><span>SPREAD:</span><span class="spread-value mono" id="spreadValue">--.--</span></div>
                     <div id="orderbookBids"></div>
@@ -320,10 +334,10 @@
             </div>
         </aside>
 
-        <!-- DERIVATIVES - BELOW CHART -->
+        <!-- DERIVATIVES -->
         <aside class="panel derivatives-panel">
             <div class="panel-header accent">
-                <span>📊 DERIVATIVES DATA</span>
+                <span>📊 DERIVATIVES</span>
                 <span class="mono">BINANCE FUTURES</span>
             </div>
             <div class="panel-content">
@@ -339,7 +353,7 @@
                         <div class="deriv-sub mono" id="nextFunding">--</div>
                     </div>
                     <div class="deriv-card">
-                        <div class="deriv-label">LONG/SHORT RATIO</div>
+                        <div class="deriv-label">LONG/SHORT</div>
                         <div class="deriv-value mono text-yellow" id="lsRatio">--</div>
                         <div class="deriv-sub mono" id="lsAccount">--</div>
                     </div>
@@ -353,270 +367,124 @@
         </aside>
     </div>
 
-    <!-- TradingView Widget Script -->
     <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
     <script>
-        console.log('🚀 Initializing Professional Terminal...');
-
-        let tradingViewWidget = null;
-        let orderbookWs = null;
+        console.log('🚀 Initializing Terminal...');
+        let tvWidget = null, obWs = null;
         const INITIAL_EQUITY = 100.0;
 
-        // ════════════════════════════════════════════════════════════════
-        // TRADINGVIEW WIDGET
-        // ════════════════════════════════════════════════════════════════
-        function initTradingViewWidget() {
-            tradingViewWidget = new TradingView.widget({
-                "width": "100%",
-                "height": "100%",
-                "symbol": "BINANCE:BTCUSDT",
-                "interval": "240",
-                "timezone": "Etc/UTC",
-                "theme": "dark",
-                "style": "1",
-                "locale": "en",
-                "toolbar_bg": "#0d0d0d",
-                "enable_publishing": false,
-                "withdateranges": true,
-                "hide_side_toolbar": false,
-                "allow_symbol_change": true,
+        function initChart() {
+            tvWidget = new TradingView.widget({
+                "width": "100%", "height": "100%", "symbol": "BINANCE:BTCUSDT",
+                "interval": "240", "timezone": "Etc/UTC", "theme": "dark", "style": "1",
+                "locale": "en", "toolbar_bg": "#0d0d0d", "enable_publishing": false,
+                "hide_side_toolbar": false, "allow_symbol_change": true,
                 "container_id": "tradingview_widget",
-                "studies": [
-                    "RSI@tv-basicstudies",
-                    "MACD@tv-basicstudies",
-                    "MovingAverage@tv-basicstudies",
-                    "BollingerBands@tv-basicstudies"
-                ]
+                "studies": ["RSI@tv-basicstudies", "MACD@tv-basicstudies"]
             });
-            console.log('✅ TradingView initialized');
+            console.log('✅ Chart initialized');
         }
 
-        // ════════════════════════════════════════════════════════════════
-        // ORDER BOOK - BINANCE WEBSOCKET
-        // ════════════════════════════════════════════════════════════════
         function initOrderBook() {
-            const wsUrl = 'wss://stream.binance.com:9443/ws/btcusdt@depth20@1000ms';
-            orderbookWs = new WebSocket(wsUrl);
-            
-            orderbookWs.onopen = () => {
-                console.log('✅ OrderBook WebSocket connected');
-                document.getElementById('orderbookStatus').innerHTML = '● <span class="text-up">LIVE</span>';
-            };
-            
-            orderbookWs.onmessage = (event) => {
-                const data = JSON.parse(event.data);
-                updateOrderBook(data);
-            };
-            
-            orderbookWs.onerror = (error) => {
-                console.error('❌ OrderBook WebSocket error:', error);
-                document.getElementById('orderbookStatus').innerHTML = '● <span class="text-down">ERROR</span>';
-            };
-            
-            orderbookWs.onclose = () => {
-                console.log('⚠️ OrderBook WebSocket closed, reconnecting...');
-                setTimeout(initOrderBook, 3000);
-            };
+            obWs = new WebSocket('wss://stream.binance.com:9443/ws/btcusdt@depth20@1000ms');
+            obWs.onopen = () => { document.getElementById('orderbookStatus').innerHTML = '● <span class="text-up">LIVE</span>'; };
+            obWs.onmessage = e => updateOrderBook(JSON.parse(e.data));
+            obWs.onclose = () => setTimeout(initOrderBook, 3000);
         }
 
         function updateOrderBook(data) {
-            const bids = data.bids.slice(0, 15);
-            const asks = data.asks.slice(0, 15).reverse();
-            
-            const bidsHtml = bids.map(bid => {
-                const price = parseFloat(bid[0]).toFixed(2);
-                const size = parseFloat(bid[1]).toFixed(4);
-                const total = (price * size).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
-                return `<div class="ob-row bid"><span class="ob-price">${price}</span><span class="ob-size">${size}</span><span class="ob-total">${total}</span></div>`;
+            const bids = data.bids.slice(0, 12), asks = data.asks.slice(0, 12).reverse();
+            document.getElementById('orderbookBids').innerHTML = bids.map(b => {
+                const p = parseFloat(b[0]).toFixed(2), s = parseFloat(b[1]).toFixed(4);
+                return `<div class="ob-row bid"><span class="ob-price">${p}</span><span class="ob-size">${s}</span><span class="ob-total">${(p*s).toFixed(0)}</span></div>`;
             }).join('');
-            
-            const asksHtml = asks.map(ask => {
-                const price = parseFloat(ask[0]).toFixed(2);
-                const size = parseFloat(ask[1]).toFixed(4);
-                const total = (price * size).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
-                return `<div class="ob-row ask"><span class="ob-price">${price}</span><span class="ob-size">${size}</span><span class="ob-total">${total}</span></div>`;
+            document.getElementById('orderbookAsks').innerHTML = asks.map(a => {
+                const p = parseFloat(a[0]).toFixed(2), s = parseFloat(a[1]).toFixed(4);
+                return `<div class="ob-row ask"><span class="ob-price">${p}</span><span class="ob-size">${s}</span><span class="ob-total">${(p*s).toFixed(0)}</span></div>`;
             }).join('');
-            
-            document.getElementById('orderbookBids').innerHTML = bidsHtml;
-            document.getElementById('orderbookAsks').innerHTML = asksHtml;
-            
-            if (bids.length > 0 && asks.length > 0) {
-                const bestBid = parseFloat(bids[0][0]);
-                const bestAsk = parseFloat(asks[asks.length - 1][0]);
-                const spread = bestAsk - bestBid;
-                const spreadPct = (spread / bestBid * 100).toFixed(3);
-                document.getElementById('spreadValue').textContent = `${spread.toFixed(2)} (${spreadPct}%)`;
+            if (bids.length && asks.length) {
+                const spread = parseFloat(asks[asks.length-1][0]) - parseFloat(bids[0][0]);
+                document.getElementById('spreadValue').textContent = spread.toFixed(2);
             }
         }
 
-        // ════════════════════════════════════════════════════════════════
-        // DERIVATIVES DATA - BINANCE FUTURES API
-        // ════════════════════════════════════════════════════════════════
-        async function fetchDerivativesData() {
+        async function fetchDerivatives() {
             try {
-                const oiRes = await fetch('https://fapi.binance.com/fapi/v1/openInterest?symbol=BTCUSDT');
-                const oiData = await oiRes.json();
-                const oi = parseFloat(oiData.openInterest).toFixed(2);
-                const oiValue = (parseFloat(oi) / 1000).toFixed(2) + 'K BTC';
-                document.getElementById('openInterest').textContent = oiValue;
-                document.getElementById('oiChange').textContent = 'Updated: ' + new Date().toLocaleTimeString();
-
-                const frRes = await fetch('https://fapi.binance.com/fapi/v1/premiumIndex?symbol=BTCUSDT');
-                const frData = await frRes.json();
-                const fundingRate = (parseFloat(frData.lastFundingRate) * 100).toFixed(4) + '%';
-                const nextFunding = new Date(frData.nextFundingTime).toLocaleTimeString();
-                document.getElementById('fundingRate').textContent = fundingRate;
-                document.getElementById('fundingRate').className = `deriv-value mono ${frData.lastFundingRate >= 0 ? 'text-up' : 'text-down'}`;
-                document.getElementById('nextFunding').textContent = 'Next: ' + nextFunding;
-
-                const lsRes = await fetch('https://fapi.binance.com/futures/data/globalLongShortAccountRatio?symbol=BTCUSDT&period=5m&limit=1');
-                const lsData = await lsRes.json();
-                if (lsData.length > 0) {
-                    const lsRatio = parseFloat(lsData[0].longShortRatio).toFixed(3);
-                    const lsAccounts = parseFloat(lsData[0].longAccount).toFixed(4);
-                    document.getElementById('lsRatio').textContent = lsRatio;
-                    document.getElementById('lsRatio').className = `deriv-value mono ${lsRatio > 1 ? 'text-up' : 'text-down'}`;
-                    document.getElementById('lsAccount').textContent = 'Long Acc: ' + lsAccounts;
-                }
-
-                const volRes = await fetch('https://fapi.binance.com/fapi/v1/ticker/24hr?symbol=BTCUSDT');
-                const volData = await volRes.json();
-                const volume = (parseFloat(volData.volume) / 1000).toFixed(2) + 'K BTC';
-                const volChange = parseFloat(volData.priceChangePercent).toFixed(2) + '%';
-                document.getElementById('volume24h').textContent = volume;
-                document.getElementById('volumeChange').textContent = '24h: ' + volChange;
-                document.getElementById('volumeChange').className = `deriv-sub mono ${volData.priceChangePercent >= 0 ? 'text-up' : 'text-down'}`;
-
-            } catch (error) {
-                console.error('❌ Derivatives fetch error:', error);
-            }
+                const oi = await fetch('https://fapi.binance.com/fapi/v1/openInterest?symbol=BTCUSDT').then(r => r.json());
+                document.getElementById('openInterest').textContent = (parseFloat(oi.openInterest)/1000).toFixed(1) + 'K';
+                const fr = await fetch('https://fapi.binance.com/fapi/v1/premiumIndex?symbol=BTCUSDT').then(r => r.json());
+                const frVal = (parseFloat(fr.lastFundingRate)*100).toFixed(4) + '%';
+                document.getElementById('fundingRate').textContent = frVal;
+                document.getElementById('fundingRate').className = 'deriv-value mono ' + (fr.lastFundingRate >= 0 ? 'text-up' : 'text-down');
+                const ls = await fetch('https://fapi.binance.com/futures/data/globalLongShortAccountRatio?symbol=BTCUSDT&period=5m&limit=1').then(r => r.json());
+                if (ls.length) document.getElementById('lsRatio').textContent = parseFloat(ls[0].longShortRatio).toFixed(3);
+                const vol = await fetch('https://fapi.binance.com/fapi/v1/ticker/24hr?symbol=BTCUSDT').then(r => r.json());
+                document.getElementById('volume24h').textContent = (parseFloat(vol.volume)/1000).toFixed(0) + 'K';
+                document.getElementById('volumeChange').textContent = vol.priceChangePercent.toFixed(2) + '%';
+            } catch (e) { console.error('Derivatives error:', e); }
         }
-        // ════════════════════════════════════════════════════════════════
-        // DASHBOARD DATA LOADING
-        // ════════════════════════════════════════════════════════════════
         async function loadData() {
             const statusEl = document.getElementById('connectionStatus');
             statusEl.innerHTML = '⟳ UPDATING...';
-            
             try {
-                const response = await fetch('data/dashboard_data.json?t=' + new Date().getTime());
+                const res = await fetch('data/dashboard_data.json?t=' + new Date().getTime());
+                if (!res.ok) throw new Error('HTTP ' + res.status);
+                const d = await res.json();
                 
-                if (!response.ok) {
-                    throw new Error(`HTTP ${response.status}`);
-                }
+                document.getElementById('equity').textContent = '$' + d.equity.toFixed(4);
+                document.getElementById('equity').className = 'metric-value mono ' + (d.equity >= INITIAL_EQUITY ? 'up' : 'down');
+                const pnl = d.equity - INITIAL_EQUITY, pnlPct = (pnl/INITIAL_EQUITY)*100;
+                document.getElementById('pnl').textContent = (pnl>=0?'+':'') + '$' + pnl.toFixed(4);
+                document.getElementById('pnl').className = 'metric-value mono ' + (pnl>=0?'up':'down');
+                document.getElementById('pnlPercent').textContent = (pnlPct>=0?'+':'') + pnlPct.toFixed(2) + '%';
+                document.getElementById('pnlPercent').className = 'metric-sub mono ' + (pnlPct>=0?'up':'down');
+                document.getElementById('equityChange').textContent = (pnlPct>=0?'+':'') + pnlPct.toFixed(2) + '%';
+                document.getElementById('drawdown').textContent = d.drawdown.toFixed(2) + '%';
+                document.getElementById('trades').textContent = d.total_trades;
+                document.getElementById('winrate').textContent = d.win_rate.toFixed(1) + '%';
+                document.getElementById('aiConf').textContent = d.ai_confidence ? d.ai_confidence.toFixed(2) : 'N/A';
+                document.getElementById('currentSignal').textContent = d.ai_decision || 'NONE';
+                document.getElementById('aiDecision').textContent = d.ai_decision || 'N/A';
                 
-                const data = await response.json();
-                console.log('✅ Data loaded');
-
-                // Portfolio Metrics
-                document.getElementById('equity').textContent = '$' + data.equity.toFixed(4);
-                document.getElementById('equity').className = 'metric-value mono ' + (data.equity >= INITIAL_EQUITY ? 'up' : 'down');
-                
-                const pnl = data.equity - INITIAL_EQUITY;
-                const pnlPct = (pnl / INITIAL_EQUITY) * 100;
-                document.getElementById('pnl').textContent = (pnl >= 0 ? '+' : '') + '$' + pnl.toFixed(4);
-                document.getElementById('pnl').className = 'metric-value mono ' + (pnl >= 0 ? 'up' : 'down');
-                document.getElementById('pnlPercent').textContent = (pnlPct >= 0 ? '+' : '') + pnlPct.toFixed(2) + '%';
-                document.getElementById('pnlPercent').className = 'metric-sub mono ' + (pnlPct >= 0 ? 'up' : 'down');
-                document.getElementById('equityChange').textContent = (pnlPct >= 0 ? '+' : '') + pnlPct.toFixed(2) + '%';
-                document.getElementById('equityChange').className = 'metric-sub mono ' + (pnlPct >= 0 ? 'up' : 'down');
-
-                document.getElementById('drawdown').textContent = data.drawdown.toFixed(2) + '%';
-                document.getElementById('drawdown').className = 'metric-value mono ' + (data.drawdown < -10 ? 'down' : 'neutral');
-
-                document.getElementById('trades').textContent = data.total_trades;
-                document.getElementById('winrate').textContent = data.win_rate.toFixed(1) + '%';
-                document.getElementById('winrate').className = 'metric-value mono ' + (data.win_rate >= 50 ? 'up' : 'down');
-
-                // AI Metrics
-                document.getElementById('aiConf').textContent = data.ai_confidence ? data.ai_confidence.toFixed(2) : 'N/A';
-                document.getElementById('aiConf').className = 'metric-value mono ' + (data.ai_confidence >= 0.65 ? 'up' : 'neutral');
-                document.getElementById('currentSignal').textContent = data.ai_decision || 'NONE';
-                document.getElementById('aiDecision').textContent = data.ai_decision || 'N/A';
-
-                // Risk Management
-                const tier = data.drawdown < -25 ? 'TIER2 ⚠️' : data.drawdown < -15 ? 'TIER1 ⚡' : 'NORMAL ✓';
-                const tierClass = data.drawdown < -25 ? 'text-down' : data.drawdown < -15 ? 'text-accent' : 'text-up';
+                const tier = d.drawdown<-25?'TIER2 ⚠️':d.drawdown<-15?'TIER1 ⚡':'NORMAL ✓';
                 document.getElementById('tierStatus').textContent = tier;
-                document.getElementById('tierStatus').className = 'info-value mono ' + tierClass;
-
-                // News Sentiment
-                const sentimentEl = document.getElementById('newsSentiment');
-                sentimentEl.textContent = data.news_sentiment || 'N/A';
-                sentimentEl.className = 'sent-value mono ' + (data.news_sentiment === 'BULLISH' ? 'up' : data.news_sentiment === 'BEARISH' ? 'down' : 'neutral');
-
-                document.getElementById('newsScore').textContent = (data.news_score || 0).toFixed(2);
-                document.getElementById('newsScore').className = 'sent-value mono ' + ((data.news_score || 0) > 0.2 ? 'up' : (data.news_score || 0) < -0.2 ? 'down' : 'neutral');
-
-                document.getElementById('newsPositive').textContent = data.news_positive || 0;
-                document.getElementById('newsNegative').textContent = data.news_negative || 0;
-
-                // News Headlines
-                const headlinesEl = document.getElementById('newsHeadlines');
-                if (data.news_articles && data.news_articles.length > 0) {
-                    headlinesEl.innerHTML = data.news_articles.slice(0, 8).map((title, i) => 
-                        `<div class="news-item"><span class="text-accent">${i + 1}.</span> ${title}</div>`
-                    ).join('');
-                } else {
-                    headlinesEl.innerHTML = '<p class="loading">NO NEWS AVAILABLE</p>';
-                }
-
-                // Trades Table
-                const tradesBody = document.getElementById('tradesBody');
-                const recentTrades = data.trades && data.trades.length > 0 ? data.trades.slice(-15).reverse() : [];
+                document.getElementById('tierStatus').className = 'info-value mono ' + (d.drawdown<-25?'text-down':d.drawdown<-15?'text-accent':'text-up');
                 
+                document.getElementById('newsSentiment').textContent = d.news_sentiment || 'N/A';
+                document.getElementById('newsSentiment').className = 'sent-value mono ' + (d.news_sentiment==='BULLISH'?'up':d.news_sentiment==='BEARISH'?'down':'neutral');
+                document.getElementById('newsScore').textContent = (d.news_score||0).toFixed(2);
+                document.getElementById('newsPositive').textContent = d.news_positive||0;
+                document.getElementById('newsNegative').textContent = d.news_negative||0;
+                
+                const headlinesEl = document.getElementById('newsHeadlines');
+                if (d.news_articles && d.news_articles.length > 0) {
+                    headlinesEl.innerHTML = d.news_articles.slice(0,8).map((t,i) => `<div class="news-item"><span class="text-accent">${i+1}.</span> ${t}</div>`).join('');
+                } else { headlinesEl.innerHTML = '<p class="loading">NO NEWS</p>'; }
+                
+                const tradesBody = document.getElementById('tradesBody');
+                const recentTrades = d.trades && d.trades.length > 0 ? d.trades.slice(-10).reverse() : [];
                 if (recentTrades.length === 0) {
-                    tradesBody.innerHTML = '<tr><td colspan="8" class="loading">NO TRADES YET</td></tr>';
+                    tradesBody.innerHTML = '<tr><td colspan="8" class="loading">NO TRADES</td></tr>';
                 } else {
-                    let previousEquity = INITIAL_EQUITY;
+                    let prevEq = INITIAL_EQUITY;
                     tradesBody.innerHTML = recentTrades.map(t => {
-                        const tradePnlPercent = ((t.equity - previousEquity) / previousEquity) * 100;
-                        const cumulativePnlPercent = ((t.equity - INITIAL_EQUITY) / INITIAL_EQUITY) * 100;
-                        previousEquity = t.equity;
-                        const time = t.timestamp ? t.timestamp.split(' ')[1]?.substring(0, 5) : '--:--';
-                        
-                        return `<tr>
-                            <td class="mono">${time}</td>
-                            <td><span class="tag ${t.signal === 'LONG' ? 'tag-long' : t.signal === 'SHORT' ? 'tag-short' : 'tag-hold'}">${t.signal}</span></td>
-                            <td class="mono">${t.position === 1 ? 'LONG' : t.position === -1 ? 'SHORT' : 'FLAT'}</td>
-                            <td class="mono">$${parseFloat(t.price).toLocaleString()}</td>
-                            <td><span class="tag ${t.ai_decision === 'BUY' || t.ai_decision === 'LONG' ? 'tag-long' : t.ai_decision === 'SELL' || t.ai_decision === 'SHORT' ? 'tag-short' : 'tag-hold'}">${t.ai_decision || 'N/A'}</span></td>
-                            <td class="mono">$${t.equity.toFixed(4)}</td>
-                            <td class="mono ${tradePnlPercent >= 0 ? 'text-up' : 'text-down'}">${tradePnlPercent >= 0 ? '+' : ''}${tradePnlPercent.toFixed(2)}%</td>
-                            <td class="mono ${cumulativePnlPercent >= 0 ? 'text-up' : 'text-down'}">${cumulativePnlPercent >= 0 ? '+' : ''}${cumulativePnlPercent.toFixed(2)}%</td>
-                        </tr>`;
+                        const tradePnl = ((t.equity-prevEq)/prevEq)*100, cumPnl = ((t.equity-INITIAL_EQUITY)/INITIAL_EQUITY)*100;
+                        prevEq = t.equity;
+                        const time = t.timestamp ? t.timestamp.split(' ')[1]?.substring(0,5) : '--:--';
+                        return `<tr><td class="mono">${time}</td><td><span class="tag ${t.signal==='LONG'?'tag-long':t.signal==='SHORT'?'tag-short':'tag-hold'}">${t.signal}</span></td><td>${t.position===1?'LONG':t.position===-1?'SHORT':'FLAT'}</td><td class="mono">$${parseFloat(t.price).toLocaleString()}</td><td><span class="tag ${t.ai_decision==='BUY'||t.ai_decision==='LONG'?'tag-long':t.ai_decision==='SELL'||t.ai_decision==='SHORT'?'tag-short':'tag-hold'}">${t.ai_decision||'N/A'}</span></td><td class="mono">$${t.equity.toFixed(4)}</td><td class="mono ${tradePnl>=0?'text-up':'text-down'}">${tradePnl>=0?'+':''}${tradePnl.toFixed(2)}%</td><td class="mono ${cumPnl>=0?'text-up':'text-down'}">${cumPnl>=0?'+':''}${cumPnl.toFixed(2)}%</td></tr>`;
                     }).join('');
                 }
-
-                document.getElementById('headerTime').textContent = new Date().toLocaleTimeString('en-US', { hour12: false });
-                statusEl.innerHTML = '● LIVE';
-                statusEl.style.color = '#00ff41';
-                console.log('✅ Terminal updated');
-
-            } catch (error) {
-                console.error('❌ Error:', error);
-                statusEl.innerHTML = '● ERROR';
-                statusEl.style.color = '#ff073a';
-            }
+                
+                document.getElementById('headerTime').textContent = new Date().toLocaleTimeString('en-US', {hour12:false});
+                statusEl.innerHTML = '● LIVE'; statusEl.style.color = '#00ff41';
+                console.log('✅ Updated');
+            } catch (e) { console.error('Error:', e); statusEl.innerHTML = '● ERROR'; statusEl.style.color = '#f00'; }
         }
 
-        // ════════════════════════════════════════════════════════════════
-        // INITIALIZATION
-        // ════════════════════════════════════════════════════════════════
-        initTradingViewWidget();
-        initOrderBook();
-        fetchDerivativesData();
-        loadData();
-        
-        setInterval(loadData, 10000);
-        setInterval(fetchDerivativesData, 5000);
-        setInterval(() => {
-            document.getElementById('headerTime').textContent = new Date().toLocaleTimeString('en-US', { hour12: false });
-        }, 1000);
-
-        console.log('✅ Professional Terminal Ready!');
-        console.log('📊 OrderBook: Binance WebSocket (FREE)');
-        console.log('📈 Derivatives: Binance Futures API (FREE)');
+        initChart(); initOrderBook(); fetchDerivatives(); loadData();
+        setInterval(loadData, 10000); setInterval(fetchDerivatives, 5000);
+        setInterval(() => { document.getElementById('headerTime').textContent = new Date().toLocaleTimeString('en-US', {hour12:false}); }, 1000);
+        console.log('✅ Terminal Ready');
     </script>
 </body>
 </html>

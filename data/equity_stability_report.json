@@ -1,0 +1,109 @@
+{
+  "equity_slope_regression": {
+    "slope": 7e-06,
+    "intercept": 9.188029,
+    "r_squared": 0.72643,
+    "p_value": 0.0,
+    "std_err": 0.0,
+    "annualized_drift_pct": 1.4705
+  },
+  "rolling_sharpe_50": {
+    "mean": 0.4353,
+    "std": 6.3886,
+    "min": -13.7216,
+    "max": 11.5301,
+    "pct_5": -8.1315,
+    "pct_95": 9.2276,
+    "pct_positive": 53.57
+  },
+  "rolling_sharpe_100": {
+    "mean": 0.202,
+    "std": 4.5808,
+    "min": -9.5449,
+    "max": 8.2972,
+    "pct_5": -5.7351,
+    "pct_95": 6.494,
+    "pct_positive": 52.87
+  },
+  "rolling_volatility_50": {
+    "mean": 104.2595,
+    "std": 398.6145,
+    "min": 0.0,
+    "max": 3416.3641,
+    "pct_5": 0.0,
+    "pct_95": 707.1126,
+    "pct_positive": 13.28
+  },
+  "yearly_breakdown": {
+    "2017": {
+      "bars": 2190,
+      "total_return": 0.0,
+      "sharpe": 0.0,
+      "volatility": 0.0,
+      "max_drawdown": 0.0
+    },
+    "2018": {
+      "bars": 2190,
+      "total_return": 0.0,
+      "sharpe": 0.0,
+      "volatility": 0.0,
+      "max_drawdown": 0.0
+    },
+    "2019": {
+      "bars": 2190,
+      "total_return": 1.306,
+      "sharpe": 140.7016,
+      "volatility": 67759.4245,
+      "max_drawdown": 0.0
+    },
+    "2020": {
+      "bars": 2196,
+      "total_return": 4.968,
+      "sharpe": 21.5699,
+      "volatility": 510986.5805,
+      "max_drawdown": -0.5152
+    },
+    "2021": {
+      "bars": 2190,
+      "total_return": -0.7905,
+      "sharpe": -16.9975,
+      "volatility": 216614.1997,
+      "max_drawdown": -1.1429
+    },
+    "2022": {
+      "bars": 2190,
+      "total_return": -0.0814,
+      "sharpe": -15.552,
+      "volatility": 60445.3453,
+      "max_drawdown": -0.1273
+    },
+    "2023": {
+      "bars": 2190,
+      "total_return": 0.7831,
+      "sharpe": 13.2509,
+      "volatility": 194907.8022,
+      "max_drawdown": -0.3719
+    },
+    "2024": {
+      "bars": 2185,
+      "total_return": 1.8152,
+      "sharpe": 1.2962,
+      "volatility": 493667.1661,
+      "max_drawdown": -6.4619
+    },
+    "2025": {
+      "bars": 2190,
+      "total_return": 8.6648,
+      "sharpe": 7.7016,
+      "volatility": 386244.6437,
+      "max_drawdown": -3.2744
+    },
+    "2026": {
+      "bars": 356,
+      "total_return": 2.9184,
+      "sharpe": 9.2833,
+      "volatility": 539483.629,
+      "max_drawdown": -1.5116
+    }
+  }
+}

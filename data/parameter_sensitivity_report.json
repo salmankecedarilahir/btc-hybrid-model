@@ -1,0 +1,64 @@
+{
+  "thresholds_tested": [
+    3,
+    4,
+    5,
+    6
+  ],
+  "results": [
+    {
+      "threshold": 3,
+      "total_trades": 285,
+      "n_long": 541,
+      "n_short": 0,
+      "n_none": 19529,
+      "total_return": 84.8505,
+      "final_equity": 18485.05,
+      "sharpe": 5.7394,
+      "max_drawdown": -19.6649,
+      "winrate": 51.9298,
+      "profit_factor": 1.5064
+    },
+    {
+      "threshold": 4,
+      "total_trades": 57,
+      "n_long": 81,
+      "n_short": 0,
+      "n_none": 19989,
+      "total_return": 6.4016,
+      "final_equity": 10640.16,
+      "sharpe": 3.1487,
+      "max_drawdown": -10.7254,
+      "winrate": 50.8772,
+      "profit_factor": 1.2382
+    },
+    {
+      "threshold": 5,
+      "total_trades": 57,
+      "n_long": 81,
+      "n_short": 0,
+      "n_none": 19989,
+      "total_return": 6.4016,
+      "final_equity": 10640.16,
+      "sharpe": 3.1487,
+      "max_drawdown": -10.7254,
+      "winrate": 50.8772,
+      "profit_factor": 1.2382
+    },
+    {
+      "threshold": 6,
+      "total_trades": 39,
+      "n_long": 53,
+      "n_short": 0,
+      "n_none": 20017,
+      "total_return": 11.143,
+      "final_equity": 11114.3,
+      "sharpe": 8.5089,
+      "max_drawdown": -6.5344,
+      "winrate": 56.4103,
+      "profit_factor": 1.6616
+    }
+  ],
+  "optimal_threshold": 6,
+  "optimal_sharpe": 8.5089
+}

@@ -1,0 +1,64 @@
+{
+  "total_samples": 20069,
+  "correlations": {
+    "hybrid_vs_future": {
+      "correlation": 0.017307,
+      "p_value": 0.014211,
+      "n": 20069,
+      "significant": true
+    },
+    "derivatives_vs_future": {
+      "correlation": 0.003212,
+      "p_value": 0.649123,
+      "n": 20069,
+      "significant": false
+    }
+  },
+  "grouped_by_hybrid_score": {
+    "-2": {
+      "mean_return": 0.002224,
+      "std_return": 1.77102,
+      "count": 4441
+    },
+    "-1": {
+      "mean_return": 0.165501,
+      "std_return": 1.622876,
+      "count": 260
+    },
+    "0": {
+      "mean_return": 0.01667,
+      "std_return": 1.370753,
+      "count": 8724
+    },
+    "1": {
+      "mean_return": -0.054081,
+      "std_return": 1.087379,
+      "count": 464
+    },
+    "2": {
+      "mean_return": 0.072575,
+      "std_return": 1.389531,
+      "count": 5600
+    },
+    "3": {
+      "mean_return": 0.113122,
+      "std_return": 1.31952,
+      "count": 487
+    },
+    "4": {
+      "mean_return": -0.247284,
+      "std_return": 0.691142,
+      "count": 12
+    },
+    "5": {
+      "mean_return": -0.136449,
+      "std_return": 1.957312,
+      "count": 28
+    },
+    "6": {
+      "mean_return": 0.208219,
+      "std_return": 1.336309,
+      "count": 53
+    }
+  }
+}

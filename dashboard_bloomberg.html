@@ -1,0 +1,984 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BTC Hybrid Model - Bloomberg Terminal Style</title>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* ════════════════════════════════════════════════════════════════
+           BLOOMBERG TERMINAL COLOR PALETTE
+           ════════════════════════════════════════════════════════════════ */
+        :root {
+            /* Bloomberg-style Dark Backgrounds */
+            --bg-primary: #000000;
+            --bg-secondary: #0a0a0a;
+            --bg-tertiary: #111111;
+            --bg-panel: #1a1a1a;
+            --bg-border: #2a2a2a;
+            --bg-hover: #333333;
+
+            /* Bloomberg Orange/Amber Accent */
+            --bb-orange: #ff6600;
+            --bb-orange-dim: #cc5200;
+            --bb-yellow: #ffcc00;
+            --bb-blue: #0099ff;
+            --bb-green: #00cc66;
+            --bb-red: #ff3333;
+            --bb-purple: #9966ff;
+
+            /* Text Colors */
+            --text-primary: #ffffff;
+            --text-secondary: #b0b0b0;
+            --text-muted: #666666;
+            --text-bright: #ffffff;
+
+            /* Trading Colors */
+            --trade-up: #00ff00;
+            --trade-down: #ff0000;
+            --trade-neutral: #888888;
+
+            /* Order Book Colors */
+            --bid-bg: rgba(0, 255, 0, 0.15);
+            --ask-bg: rgba(255, 0, 0, 0.15);
+            --bid-border: #00ff00;
+            --ask-border: #ff0000;
+
+            /* Spacing */
+            --spacing-xs: 3px;
+            --spacing-sm: 6px;
+            --spacing-md: 12px;
+            --spacing-lg: 18px;
+            --spacing-xl: 24px;
+
+            /* Borders - Sharp like Bloomberg */
+            --radius-sm: 0px;
+            --radius-md: 0px;
+            --radius-lg: 0px;
+            --border-width: 1px;
+        }
+
+        /* ════════════════════════════════════════════════════════════════
+           BASE STYLES
+           ════════════════════════════════════════════════════════════════ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'IBM Plex Sans', monospace;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.4;
+            overflow-x: hidden;
+            font-size: 13px;
+        }
+
+        /* Monospace for numbers */
+        .mono {
+            font-family: 'IBM Plex Mono', monospace;
+        }
+
+        /* Scrollbar - Bloomberg style */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-primary);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--bg-border);
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--bb-orange);
+        }
+
+        /* ════════════════════════════════════════════════════════════════
+           LAYOUT - BLOOMBERG GRID
+           ════════════════════════════════════════════════════════════════ */
+        .terminal-container {
+            display: grid;
+            grid-template-columns: 280px 1fr 300px;
+            grid-template-rows: 50px 1fr 250px;
+            min-height: 100vh;
+            gap: var(--spacing-xs);
+            padding: var(--spacing-xs);
+            background: var(--bg-primary);
+        }
+
+        /* ════════════════════════════════════════════════════════════════
+           HEADER - BLOOMBERG STYLE
+           ════════════════════════════════════════════════════════════════ */
+        .terminal-header {
+            grid-column: 1 / -1;
+            background: var(--bb-orange);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 var(--spacing-md);
+            font-weight: 700;
+            font-size: 14px;
+            letter-spacing: 0.5px;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-md);
+        }
+
+        .header-logo {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            color: #000;
+        }
+
+        .header-ticker {
+            background: #000;
+            color: var(--bb-orange);
+            padding: var(--spacing-xs) var(--spacing-md);
+            font-family: 'IBM Plex Mono', monospace;
+            font-weight: 600;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-md);
+            color: #000;
+        }
+
+        .header-time {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 12px;
+        }
+
+        .refresh-btn {
+            background: #000;
+            color: var(--bb-orange);
+            border: 2px solid #000;
+            padding: var(--spacing-xs) var(--spacing-md);
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 11px;
+            text-transform: uppercase;
+            transition: all 0.2s;
+        }
+
+        .refresh-btn:hover {
+            background: var(--bb-orange);
+            color: #000;
+        }
+
+        /* ════════════════════════════════════════════════════════════════
+           PANELS - BLOOMBERG STYLE
+           ════════════════════════════════════════════════════════════════ */
+        .panel {
+            background: var(--bg-panel);
+            border: var(--border-width) solid var(--bg-border);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .panel-header {
+            background: var(--bb-orange);
+            color: #000;
+            padding: var(--spacing-xs) var(--spacing-md);
+            font-weight: 700;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .panel-content {
+            padding: var(--spacing-md);
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        /* ════════════════════════════════════════════════════════════════
+           SIDEBAR (LEFT)
+           ════════════════════════════════════════════════════════════════ */
+        .sidebar {
+            grid-row: 2 / 3;
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-xs);
+        }
+
+        .metric-box {
+            background: var(--bg-tertiary);
+            border: var(--border-width) solid var(--bg-border);
+            padding: var(--spacing-md);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .metric-label {
+            font-size: 10px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .metric-value {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--text-bright);
+        }
+
+        .metric-value.positive { color: var(--trade-up); }
+        .metric-value.negative { color: var(--trade-down); }
+        .metric-value.neutral { color: var(--bb-blue); }
+
+        .metric-change {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 11px;
+            margin-top: var(--spacing-xs);
+        }
+
+        .metric-change.positive { color: var(--trade-up); }
+        .metric-change.negative { color: var(--trade-down); }
+
+        /* ════════════════════════════════════════════════════════════════
+           MAIN CHART (CENTER)
+           ════════════════════════════════════════════════════════════════ */
+        .main-chart {
+            grid-row: 2 / 3;
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-xs);
+        }
+
+        .chart-container {
+            flex: 1;
+            background: var(--bg-panel);
+            border: var(--border-width) solid var(--bg-border);
+        }
+
+        .chart-header {
+            background: var(--bb-orange);
+            color: #000;
+            padding: var(--spacing-xs) var(--spacing-md);
+            font-weight: 700;
+            font-size: 11px;
+            text-transform: uppercase;
+        }
+
+        .chart-widget {
+            width: 100%;
+            height: calc(100% - 35px);
+        }
+
+        /* Trades Table */
+        .trades-container {
+            background: var(--bg-panel);
+            border: var(--border-width) solid var(--bg-border);
+            max-height: 250px;
+            overflow-y: auto;
+        }
+
+        .trades-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 11px;
+        }
+
+        .trades-table th {
+            background: var(--bb-orange);
+            color: #000;
+            padding: var(--spacing-xs) var(--spacing-sm);
+            text-align: left;
+            font-weight: 700;
+            font-size: 10px;
+            text-transform: uppercase;
+            border-bottom: 2px solid #000;
+        }
+
+        .trades-table td {
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border-bottom: var(--border-width) solid var(--bg-border);
+            color: var(--text-primary);
+        }
+
+        .trades-table tr:hover {
+            background: var(--bg-hover);
+        }
+
+        .signal-tag {
+            display: inline-block;
+            padding: 2px 6px;
+            font-size: 9px;
+            font-weight: 700;
+            text-transform: uppercase;
+            border: 1px solid;
+        }
+
+        .signal-long { background: rgba(0, 255, 0, 0.2); color: var(--trade-up); border-color: var(--trade-up); }
+        .signal-short { background: rgba(255, 0, 0, 0.2); color: var(--trade-down); border-color: var(--trade-down); }
+        .signal-none { background: rgba(136, 136, 136, 0.2); color: var(--trade-neutral); border-color: var(--trade-neutral); }
+
+        /* ════════════════════════════════════════════════════════════════
+           ORDER BOOK (RIGHT)
+           ════════════════════════════════════════════════════════════════ */
+        .orderbook-panel {
+            grid-row: 2 / 4;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .orderbook-container {
+            flex: 1;
+            overflow-y: auto;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 11px;
+        }
+
+        .orderbook-header {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            padding: var(--spacing-xs) var(--spacing-sm);
+            background: var(--bg-tertiary);
+            border-bottom: var(--border-width) solid var(--bg-border);
+            font-size: 9px;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        .orderbook-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            padding: 3px var(--spacing-sm);
+            cursor: pointer;
+            position: relative;
+        }
+
+        .orderbook-row:hover {
+            background: var(--bg-hover);
+        }
+
+        .orderbook-row.bid {
+            background: var(--bid-bg);
+        }
+
+        .orderbook-row.ask {
+            background: var(--ask-bg);
+        }
+
+        .orderbook-row.bid:hover {
+            background: rgba(0, 255, 0, 0.25);
+        }
+
+        .orderbook-row.ask:hover {
+            background: rgba(255, 0, 0, 0.25);
+        }
+
+        .ob-price, .ob-size, .ob-total {
+            text-align: right;
+            padding: 0 4px;
+        }
+
+        .ob-price:first-child {
+            text-align: left;
+        }
+
+        .bid .ob-price {
+            color: var(--trade-up);
+        }
+
+        .ask .ob-price {
+            color: var(--trade-down);
+        }
+
+        .spread-display {
+            background: var(--bg-tertiary);
+            padding: var(--spacing-sm) var(--spacing-md);
+            border-top: var(--border-width) solid var(--bg-border);
+            border-bottom: var(--border-width) solid var(--bg-border);
+            display: flex;
+            justify-content: space-between;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 11px;
+        }
+
+        .spread-value {
+            color: var(--bb-yellow);
+            font-weight: 700;
+        }
+
+        /* ════════════════════════════════════════════════════════════════
+           BOTTOM PANEL (NEWS & INFO)
+           ════════════════════════════════════════════════════════════════ */
+        .bottom-panel {
+            grid-column: 1 / 3;
+            grid-row: 3 / 4;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--spacing-xs);
+        }
+
+        .news-container {
+            background: var(--bg-panel);
+            border: var(--border-width) solid var(--bg-border);
+            overflow-y: auto;
+            max-height: 240px;
+        }
+
+        .news-item {
+            padding: var(--spacing-sm) var(--spacing-md);
+            border-bottom: var(--border-width) solid var(--bg-border);
+            font-size: 11px;
+            line-height: 1.5;
+        }
+
+        .news-item:last-child {
+            border-bottom: none;
+        }
+
+        .news-item:hover {
+            background: var(--bg-hover);
+        }
+
+        .news-sentiment {
+            display: inline-block;
+            padding: 2px 6px;
+            font-size: 9px;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-right: var(--spacing-sm);
+        }
+
+        .sentiment-bullish { background: rgba(0, 255, 0, 0.2); color: var(--trade-up); }
+        .sentiment-bearish { background: rgba(255, 0, 0, 0.2); color: var(--trade-down); }
+        .sentiment-neutral { background: rgba(136, 136, 136, 0.2); color: var(--trade-neutral); }
+
+        /* ════════════════════════════════════════════════════════════════
+           UTILITY CLASSES
+           ════════════════════════════════════════════════════════════════ */
+        .text-up { color: var(--trade-up); }
+        .text-down { color: var(--trade-down); }
+        .text-orange { color: var(--bb-orange); }
+        .text-blue { color: var(--bb-blue); }
+        .text-yellow { color: var(--bb-yellow); }
+
+        .border-orange { border-color: var(--bb-orange); }
+        .border-up { border-color: var(--trade-up); }
+        .border-down { border-color: var(--trade-down); }
+
+        .loading {
+            text-align: center;
+            padding: var(--spacing-xl);
+            color: var(--text-muted);
+            font-size: 11px;
+        }
+
+        /* ════════════════════════════════════════════════════════════════
+           RESPONSIVE
+           ════════════════════════════════════════════════════════════════ */
+        @media (max-width: 1400px) {
+            .terminal-container {
+                grid-template-columns: 240px 1fr 260px;
+            }
+        }
+
+        @media (max-width: 1200px) {
+            .terminal-container {
+                grid-template-columns: 1fr;
+                grid-template-rows: 50px auto auto auto auto;
+            }
+
+            .sidebar, .orderbook-panel, .bottom-panel {
+                grid-column: 1 / -1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="terminal-container">
+        <!-- ════════════════════════════════════════════════════════════════
+             HEADER
+             ════════════════════════════════════════════════════════════════ -->
+        <header class="terminal-header">
+            <div class="header-left">
+                <div class="header-logo">
+                    <span>🚀</span>
+                    <span>BTC HYBRID MODEL</span>
+                </div>
+                <div class="header-ticker mono">BTC/USDT</div>
+                <div class="header-status">
+                    <span style="color: #000;">●</span>
+                    <span id="connectionStatus">LIVE</span>
+                </div>
+            </div>
+            <div class="header-right">
+                <span class="header-time mono" id="headerTime">--:--:--</span>
+                <button class="refresh-btn" onclick="loadData()">⟳ Refresh</button>
+            </div>
+        </header>
+
+        <!-- ════════════════════════════════════════════════════════════════
+             SIDEBAR (LEFT)
+             ════════════════════════════════════════════════════════════════ -->
+        <aside class="sidebar">
+            <!-- Portfolio -->
+            <div class="panel" style="flex: 1;">
+                <div class="panel-header">
+                    <span>📊 PORTFOLIO</span>
+                    <span>▼</span>
+                </div>
+                <div class="panel-content">
+                    <div class="metric-box">
+                        <div class="metric-label">VIRTUAL EQUITY</div>
+                        <div class="metric-value mono neutral" id="equity">$100.0000</div>
+                        <div class="metric-change mono" id="equityChange">+0.00%</div>
+                    </div>
+
+                    <div class="metric-box">
+                        <div class="metric-label">TOTAL P&L</div>
+                        <div class="metric-value mono neutral" id="pnl">$0.0000</div>
+                        <div class="metric-change mono neutral" id="pnlPercent">0.00%</div>
+                    </div>
+
+                    <div class="metric-box">
+                        <div class="metric-label">DRAWDOWN</div>
+                        <div class="metric-value mono negative" id="drawdown">0.00%</div>
+                    </div>
+
+                    <div class="metric-box">
+                        <div class="metric-label">WIN RATE</div>
+                        <div class="metric-value mono neutral" id="winrate">0.0%</div>
+                    </div>
+
+                    <div class="metric-box">
+                        <div class="metric-label">TOTAL TRADES</div>
+                        <div class="metric-value mono neutral" id="trades">0</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AI Metrics -->
+            <div class="panel" style="flex: 1;">
+                <div class="panel-header">
+                    <span>🤖 AI METRICS</span>
+                    <span>▼</span>
+                </div>
+                <div class="panel-content">
+                    <div class="metric-box">
+                        <div class="metric-label">AI CONFIDENCE</div>
+                        <div class="metric-value mono neutral" id="aiConf">N/A</div>
+                    </div>
+
+                    <div class="metric-box">
+                        <div class="metric-label">CURRENT SIGNAL</div>
+                        <div class="metric-value mono neutral" id="currentSignal">NONE</div>
+                    </div>
+
+                    <div class="metric-box">
+                        <div class="metric-label">AI DECISION</div>
+                        <div class="metric-value mono neutral" id="aiDecision">N/A</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Risk Management -->
+            <div class="panel" style="flex: 1;">
+                <div class="panel-header">
+                    <span>⚡ RISK MANAGEMENT</span>
+                    <span>▼</span>
+                </div>
+                <div class="panel-content">
+                    <div style="font-size: 11px;">
+                        <div style="display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid var(--bg-border);">
+                            <span style="color: var(--text-muted);">KILL SWITCH</span>
+                            <span class="text-orange mono" id="tierStatus">NORMAL ✓</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid var(--bg-border);">
+                            <span style="color: var(--text-muted);">VOL SCALE</span>
+                            <span class="mono" id="volScale">1.00x</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid var(--bg-border);">
+                            <span style="color: var(--text-muted);">LEVERAGE</span>
+                            <span class="mono" id="leverage">1.00x</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid var(--bg-border);">
+                            <span style="color: var(--text-muted);">1D TREND</span>
+                            <span class="mono" id="trend1d">NEUTRAL</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; padding: 6px 0;">
+                            <span style="color: var(--text-muted);">REGIME</span>
+                            <span class="mono" id="regime">NORMAL</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- ════════════════════════════════════════════════════════════════
+             MAIN CHART (CENTER)
+             ════════════════════════════════════════════════════════════════ -->
+        <main class="main-chart">
+            <div class="chart-container">
+                <div class="chart-header">
+                    📈 BTC/USDT - TRADINGVIEW (4H)
+                </div>
+                <div class="chart-widget" id="tradingview_widget"></div>
+            </div>
+
+            <div class="trades-container">
+                <table class="trades-table">
+                    <thead>
+                        <tr>
+                            <th>TIME</th>
+                            <th>SIGNAL</th>
+                            <th>POSITION</th>
+                            <th>PRICE</th>
+                            <th>AI</th>
+                            <th>EQUITY</th>
+                            <th>TRADE P&L</th>
+                            <th>CUM P&L</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tradesBody">
+                        <tr><td colspan="8" class="loading">LOADING TRADES...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </main>
+
+        <!-- ════════════════════════════════════════════════════════════════
+             ORDER BOOK (RIGHT)
+             ════════════════════════════════════════════════════════════════ -->
+        <aside class="orderbook-panel">
+            <div class="panel" style="flex: 1;">
+                <div class="panel-header">
+                    <span>📋 ORDER BOOK</span>
+                    <span class="mono" id="orderbookStatus">● LIVE</span>
+                </div>
+                <div class="orderbook-container" id="orderbookContainer">
+                    <div class="orderbook-header">
+                        <span>PRICE (USDT)</span>
+                        <span>SIZE (BTC)</span>
+                        <span>TOTAL</span>
+                    </div>
+                    <!-- Asks (Sells) - Red -->
+                    <div id="orderbookAsks"></div>
+                    
+                    <div class="spread-display">
+                        <span>SPREAD:</span>
+                        <span class="spread-value mono" id="spreadValue">--.--</span>
+                    </div>
+                    
+                    <!-- Bids (Buys) - Green -->
+                    <div id="orderbookBids"></div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- ════════════════════════════════════════════════════════════════
+             BOTTOM PANEL (NEWS & SENTIMENT)
+             ════════════════════════════════════════════════════════════════ -->
+        <aside class="bottom-panel">
+            <!-- News Sentiment -->
+            <div class="panel">
+                <div class="panel-header">
+                    <span>📰 NEWS SENTIMENT</span>
+                    <span class="mono" id="newsStatus">TAVILY API</span>
+                </div>
+                <div class="panel-content" style="padding: 0;">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--bg-border);">
+                        <div style="background: var(--bg-tertiary); padding: var(--spacing-md);">
+                            <div class="metric-label">OVERALL SENTIMENT</div>
+                            <div class="metric-value mono" id="newsSentiment" style="font-size: 18px;">N/A</div>
+                        </div>
+                        <div style="background: var(--bg-tertiary); padding: var(--spacing-md);">
+                            <div class="metric-label">SENTIMENT SCORE</div>
+                            <div class="metric-value mono" id="newsScore" style="font-size: 18px;">0.00</div>
+                        </div>
+                        <div style="background: var(--bg-tertiary); padding: var(--spacing-md);">
+                            <div class="metric-label">POSITIVE</div>
+                            <div class="metric-value mono text-up" id="newsPositive">0</div>
+                        </div>
+                        <div style="background: var(--bg-tertiary); padding: var(--spacing-md);">
+                            <div class="metric-label">NEGATIVE</div>
+                            <div class="metric-value mono text-down" id="newsNegative">0</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Top News -->
+            <div class="panel">
+                <div class="panel-header">
+                    <span>📰 TOP NEWS HEADLINES</span>
+                </div>
+                <div class="news-container" id="newsHeadlines">
+                    <p class="loading">LOADING NEWS...</p>
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <!-- TradingView Widget -->
+    <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+    
+    <script>
+        console.log('🚀 Initializing Bloomberg Terminal...');
+
+        let tradingViewWidget = null;
+        let orderbookWs = null;
+        const INITIAL_EQUITY = 100.0;
+
+        // ════════════════════════════════════════════════════════════════
+        // TRADINGVIEW WIDGET
+        // ════════════════════════════════════════════════════════════════
+        function initTradingViewWidget() {
+            tradingViewWidget = new TradingView.widget({
+                "width": "100%",
+                "height": "100%",
+                "symbol": "BINANCE:BTCUSDT",
+                "interval": "240",
+                "timezone": "Etc/UTC",
+                "theme": "dark",
+                "style": "1",
+                "locale": "en",
+                "toolbar_bg": "#1a1a1a",
+                "enable_publishing": false,
+                "withdateranges": true,
+                "hide_side_toolbar": false,
+                "allow_symbol_change": true,
+                "container_id": "tradingview_widget",
+                "studies": [
+                    "RSI@tv-basicstudies",
+                    "MACD@tv-basicstudies",
+                    "MovingAverage@tv-basicstudies",
+                    "BollingerBands@tv-basicstudies"
+                ]
+            });
+            console.log('✅ TradingView initialized');
+        }
+
+        // ════════════════════════════════════════════════════════════════
+        // ORDER BOOK - BINANCE WEBSOCKET (FREE!)
+        // ════════════════════════════════════════════════════════════════
+        function initOrderBook() {
+            const wsUrl = 'wss://stream.binance.com:9443/ws/btcusdt@depth20@1000ms';
+            
+            orderbookWs = new WebSocket(wsUrl);
+            
+            orderbookWs.onopen = () => {
+                console.log('✅ OrderBook WebSocket connected');
+                document.getElementById('orderbookStatus').innerHTML = '● <span class="text-up">LIVE</span>';
+            };
+            
+            orderbookWs.onmessage = (event) => {
+                const data = JSON.parse(event.data);
+                updateOrderBook(data);
+            };
+            
+            orderbookWs.onerror = (error) => {
+                console.error('❌ OrderBook WebSocket error:', error);
+                document.getElementById('orderbookStatus').innerHTML = '● <span class="text-down">ERROR</span>';
+            };
+            
+            orderbookWs.onclose = () => {
+                console.log('⚠️ OrderBook WebSocket closed, reconnecting...');
+                setTimeout(initOrderBook, 3000);
+            };
+        }
+
+        function updateOrderBook(data) {
+            const bids = data.bids.slice(0, 10);  // Top 10 bids
+            const asks = data.asks.slice(0, 10).reverse();  // Top 10 asks, reversed
+            
+            // Update Bids (Buys - Green)
+            const bidsHtml = bids.map(bid => {
+                const price = parseFloat(bid[0]).toFixed(2);
+                const size = parseFloat(bid[1]).toFixed(4);
+                const total = (price * size).toFixed(2);
+                return `
+                    <div class="orderbook-row bid">
+                        <span class="ob-price">${price}</span>
+                        <span class="ob-size">${size}</span>
+                        <span class="ob-total">${total}</span>
+                    </div>
+                `;
+            }).join('');
+            
+            // Update Asks (Sells - Red)
+            const asksHtml = asks.map(ask => {
+                const price = parseFloat(ask[0]).toFixed(2);
+                const size = parseFloat(ask[1]).toFixed(4);
+                const total = (price * size).toFixed(2);
+                return `
+                    <div class="orderbook-row ask">
+                        <span class="ob-price">${price}</span>
+                        <span class="ob-size">${size}</span>
+                        <span class="ob-total">${total}</span>
+                    </div>
+                `;
+            }).join('');
+            
+            document.getElementById('orderbookBids').innerHTML = bidsHtml;
+            document.getElementById('orderbookAsks').innerHTML = asksHtml;
+            
+            // Calculate Spread
+            if (bids.length > 0 && asks.length > 0) {
+                const bestBid = parseFloat(bids[0][0]);
+                const bestAsk = parseFloat(asks[asks.length - 1][0]);
+                const spread = bestAsk - bestBid;
+                const spreadPct = (spread / bestBid * 100).toFixed(3);
+                document.getElementById('spreadValue').textContent = `${spread.toFixed(2)} (${spreadPct}%)`;
+            }
+        }
+
+        // ════════════════════════════════════════════════════════════════
+        // DASHBOARD DATA LOADING
+        // ════════════════════════════════════════════════════════════════
+        async function loadData() {
+            const statusEl = document.getElementById('connectionStatus');
+            statusEl.innerHTML = '⟳ UPDATING...';
+            
+            try {
+                const response = await fetch('data/dashboard_data.json?t=' + new Date().getTime());
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+                
+                const data = await response.json();
+                console.log('✅ Data loaded');
+
+                // Update Portfolio
+                document.getElementById('equity').textContent = `$${data.equity.toFixed(4)}`;
+                document.getElementById('equity').className = `metric-value mono ${data.equity >= INITIAL_EQUITY ? 'positive' : 'negative'}`;
+                
+                const pnl = data.equity - INITIAL_EQUITY;
+                const pnlPct = (pnl / INITIAL_EQUITY) * 100;
+                document.getElementById('pnl').textContent = `${pnl >= 0 ? '+' : ''}$${pnl.toFixed(4)}`;
+                document.getElementById('pnl').className = `metric-value mono ${pnl >= 0 ? 'positive' : 'negative'}`;
+                document.getElementById('pnlPercent').textContent = `${pnlPct >= 0 ? '+' : ''}${pnlPct.toFixed(2)}%`;
+                document.getElementById('pnlPercent').className = `metric-change mono ${pnlPct >= 0 ? 'positive' : 'negative'}`;
+                document.getElementById('equityChange').textContent = `${pnlPct >= 0 ? '+' : ''}${pnlPct.toFixed(2)}%`;
+                document.getElementById('equityChange').className = `metric-change mono ${pnlPct >= 0 ? 'positive' : 'negative'}`;
+
+                document.getElementById('drawdown').textContent = `${data.drawdown.toFixed(2)}%`;
+                document.getElementById('drawdown').className = `metric-value mono ${data.drawdown < -10 ? 'negative' : 'neutral'}`;
+
+                document.getElementById('trades').textContent = data.total_trades;
+                document.getElementById('winrate').textContent = `${data.win_rate.toFixed(1)}%`;
+                document.getElementById('winrate').className = `metric-value mono ${data.win_rate >= 50 ? 'positive' : 'negative'}`;
+
+                // Update AI Metrics
+                document.getElementById('aiConf').textContent = data.ai_confidence ? data.ai_confidence.toFixed(2) : 'N/A';
+                document.getElementById('aiConf').className = `metric-value mono ${data.ai_confidence >= 0.65 ? 'positive' : 'neutral'}`;
+                document.getElementById('currentSignal').textContent = data.ai_decision || 'NONE';
+                document.getElementById('aiDecision').textContent = data.ai_decision || 'N/A';
+
+                // Update Risk
+                const tier = data.drawdown < -25 ? 'TIER2 ⚠️' : data.drawdown < -15 ? 'TIER1 ⚡' : 'NORMAL ✓';
+                const tierClass = data.drawdown < -25 ? 'text-down' : data.drawdown < -15 ? 'text-yellow' : 'text-up';
+                document.getElementById('tierStatus').textContent = tier;
+                document.getElementById('tierStatus').className = `mono ${tierClass}`;
+
+                // Update News Sentiment
+                const sentimentEl = document.getElementById('newsSentiment');
+                sentimentEl.textContent = data.news_sentiment || 'N/A';
+                sentimentEl.className = `metric-value mono ${data.news_sentiment === 'BULLISH' ? 'text-up' : data.news_sentiment === 'BEARISH' ? 'text-down' : 'text-blue'}`;
+
+                document.getElementById('newsScore').textContent = (data.news_score || 0).toFixed(2);
+                document.getElementById('newsScore').className = `metric-value mono ${(data.news_score || 0) > 0.2 ? 'text-up' : (data.news_score || 0) < -0.2 ? 'text-down' : 'text-blue'}`;
+
+                document.getElementById('newsPositive').textContent = data.news_positive || 0;
+                document.getElementById('newsNegative').textContent = data.news_negative || 0;
+
+                // Update News Headlines
+                const headlinesEl = document.getElementById('newsHeadlines');
+                if (data.news_articles && data.news_articles.length > 0) {
+                    headlinesEl.innerHTML = data.news_articles.slice(0, 8).map((title, i) => `
+                        <div class="news-item">
+                            <span class="news-sentiment ${data.news_sentiment === 'BULLISH' ? 'sentiment-bullish' : data.news_sentiment === 'BEARISH' ? 'sentiment-bearish' : 'sentiment-neutral'}">${data.news_sentiment || 'N/A'}</span>
+                            ${title}
+                        </div>
+                    `).join('');
+                } else {
+                    headlinesEl.innerHTML = '<p class="loading">NO NEWS AVAILABLE</p>';
+                }
+
+                // Update Trades Table
+                const tradesBody = document.getElementById('tradesBody');
+                const recentTrades = data.trades && data.trades.length > 0 
+                    ? data.trades.slice(-15).reverse()
+                    : [];
+                
+                if (recentTrades.length === 0) {
+                    tradesBody.innerHTML = '<tr><td colspan="8" class="loading">NO TRADES YET</td></tr>';
+                } else {
+                    let previousEquity = INITIAL_EQUITY;
+                    
+                    tradesBody.innerHTML = recentTrades.map(t => {
+                        const tradePnlPercent = ((t.equity - previousEquity) / previousEquity) * 100;
+                        const cumulativePnlPercent = ((t.equity - INITIAL_EQUITY) / INITIAL_EQUITY) * 100;
+                        previousEquity = t.equity;
+                        
+                        const time = t.timestamp ? t.timestamp.split(' ')[1]?.substring(0, 5) : '--:--';
+                        
+                        return `
+                            <tr>
+                                <td class="mono">${time}</td>
+                                <td><span class="signal-tag ${t.signal === 'LONG' ? 'signal-long' : t.signal === 'SHORT' ? 'signal-short' : 'signal-none'}">${t.signal}</span></td>
+                                <td class="mono">${t.position === 1 ? 'LONG' : t.position === -1 ? 'SHORT' : 'FLAT'}</td>
+                                <td class="mono">$${parseFloat(t.price).toLocaleString()}</td>
+                                <td><span class="signal-tag ${t.ai_decision === 'BUY' || t.ai_decision === 'LONG' ? 'signal-long' : t.ai_decision === 'SELL' || t.ai_decision === 'SHORT' ? 'signal-short' : 'signal-none'}">${t.ai_decision || 'N/A'}</span></td>
+                                <td class="mono">$${t.equity.toFixed(4)}</td>
+                                <td class="mono ${tradePnlPercent >= 0 ? 'text-up' : 'text-down'}">${tradePnlPercent >= 0 ? '+' : ''}${tradePnlPercent.toFixed(2)}%</td>
+                                <td class="mono ${cumulativePnlPercent >= 0 ? 'text-up' : 'text-down'}">${cumulativePnlPercent >= 0 ? '+' : ''}${cumulativePnlPercent.toFixed(2)}%</td>
+                            </tr>
+                        `;
+                    }).join('');
+                }
+
+                // Update Header Time
+                document.getElementById('headerTime').textContent = new Date().toLocaleTimeString('en-US', { hour12: false });
+                document.getElementById('lastUpdate').textContent = `LAST UPDATE: ${new Date().toLocaleString()}`;
+                
+                statusEl.innerHTML = '● LIVE';
+                statusEl.style.color = '#000';
+                console.log('✅ Terminal updated');
+
+            } catch (error) {
+                console.error('❌ Error:', error);
+                statusEl.innerHTML = '● ERROR';
+                statusEl.style.color = '#ff0000';
+            }
+        }
+
+        // ════════════════════════════════════════════════════════════════
+        // INITIALIZATION
+        // ════════════════════════════════════════════════════════════════
+        initTradingViewWidget();
+        initOrderBook();  // FREE Binance WebSocket!
+        loadData();
+        setInterval(loadData, 10000);
+        setInterval(() => {
+            document.getElementById('headerTime').textContent = new Date().toLocaleTimeString('en-US', { hour12: false });
+        }, 1000);
+
+        console.log('✅ Bloomberg Terminal Ready!');
+        console.log('📊 OrderBook: Binance WebSocket (FREE)');
+    </script>
+</body>
+</html>

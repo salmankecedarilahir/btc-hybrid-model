@@ -1,0 +1,34 @@
+{
+  "n_simulations": 1000,
+  "initial_equity": 10000.0,
+  "max_drawdown": {
+    "worst": -14.8911,
+    "median": -6.4984,
+    "mean": -6.7717,
+    "pct_5": -10.1518,
+    "pct_95": -4.3728,
+    "best": -3.6441
+  },
+  "final_equity": {
+    "mean": 12096.89,
+    "median": 12096.89,
+    "pct_5": 12096.89,
+    "pct_95": 12096.89,
+    "worst": 12096.89,
+    "best": 12096.89
+  },
+  "total_return": {
+    "mean": 20.9689,
+    "median": 20.9689,
+    "pct_5": 20.9689,
+    "pct_95": 20.9689,
+    "worst": 20.9689,
+    "best": 20.9689
+  },
+  "probability": {
+    "prob_profit": 100.0,
+    "prob_loss_50pct": 0.0,
+    "prob_dd_20pct": 0.0,
+    "prob_dd_30pct": 0.0
+  }
+}

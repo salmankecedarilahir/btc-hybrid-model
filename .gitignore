@@ -1,0 +1,40 @@
+# Environment variables (CONTAINS SECRETS)
+.env
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+venv/
+.env.backup
+
+# Models (large binary files)
+models/*.pkl
+models/*.joblib
+models/registry/
+
+# Data files (large, regenerate from APIs)
+data/*.csv
+data/*.parquet
+
+# Logs
+logs/*.log
+logs/*.json
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Temporary files
+*.tmp
+*.bak

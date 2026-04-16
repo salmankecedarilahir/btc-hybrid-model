@@ -1,0 +1,92 @@
+{
+  "by_regime": {
+    "DOWN": {
+      "trade_count": 0,
+      "total_return": 0.0,
+      "sharpe": 0.0,
+      "winrate": 0.0
+    },
+    "NEUTRAL": {
+      "trade_count": 0,
+      "total_return": 0.0,
+      "sharpe": 0.0,
+      "winrate": 0.0
+    },
+    "SIDEWAYS": {
+      "trade_count": 0,
+      "total_return": 0.0,
+      "sharpe": 0.0,
+      "winrate": 0.0
+    },
+    "UP": {
+      "trade_count": 177,
+      "total_return": 2096.8942,
+      "sharpe": 5.9477,
+      "winrate": 49.7175
+    }
+  },
+  "by_volatility_regime": {
+    "HIGH": {
+      "trade_count": 145,
+      "total_return": 2350.4328,
+      "sharpe": 8.6263,
+      "winrate": 48.9655
+    },
+    "LOW": {
+      "trade_count": 0,
+      "total_return": 0.0,
+      "sharpe": 0.0,
+      "winrate": 0.0
+    },
+    "MID": {
+      "trade_count": 32,
+      "total_return": -253.5386,
+      "sharpe": -3.2625,
+      "winrate": 53.125
+    }
+  },
+  "by_combined": {
+    "DOWN_HIGH": {
+      "trade_count": 0,
+      "total_return": 0.0,
+      "sharpe": 0.0,
+      "winrate": 0.0
+    },
+    "DOWN_MID": {
+      "trade_count": 0,
+      "total_return": 0.0,
+      "sharpe": 0.0,
+      "winrate": 0.0
+    },
+    "NEUTRAL_HIGH": {
+      "trade_count": 0,
+      "total_return": 0.0,
+      "sharpe": 0.0,
+      "winrate": 0.0
+    },
+    "NEUTRAL_MID": {
+      "trade_count": 0,
+      "total_return": 0.0,
+      "sharpe": 0.0,
+      "winrate": 0.0
+    },
+    "SIDEWAYS_LOW": {
+      "trade_count": 0,
+      "total_return": 0.0,
+      "sharpe": 0.0,
+      "winrate": 0.0
+    },
+    "UP_HIGH": {
+      "trade_count": 145,
+      "total_return": 2350.4328,
+      "sharpe": 8.6263,
+      "winrate": 48.9655
+    },
+    "UP_MID": {
+      "trade_count": 32,
+      "total_return": -253.5386,
+      "sharpe": -3.2625,
+      "winrate": 53.125
+    }
+  }
+}

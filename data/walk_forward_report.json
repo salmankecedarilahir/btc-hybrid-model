@@ -1,0 +1,71 @@
+{
+  "windows": [
+    {
+      "window": 1,
+      "train": {
+        "start": "2017-01-01",
+        "end": "2020-12-31",
+        "bars": 8766,
+        "total_return": 6.3388,
+        "sharpe": 24.0718,
+        "max_drawdown": -0.5152
+      },
+      "test": {
+        "start": "2021-01-01",
+        "end": "2021-12-31",
+        "bars": 2190,
+        "total_return": -0.7905,
+        "sharpe": -16.9975,
+        "max_drawdown": -1.1429
+      }
+    },
+    {
+      "window": 2,
+      "train": {
+        "start": "2018-01-01",
+        "end": "2021-12-31",
+        "bars": 8766,
+        "total_return": 5.4982,
+        "sharpe": 16.2267,
+        "max_drawdown": -1.1429
+      },
+      "test": {
+        "start": "2022-01-01",
+        "end": "2022-12-31",
+        "bars": 2190,
+        "total_return": -0.0814,
+        "sharpe": -15.552,
+        "max_drawdown": -1.2687
+      }
+    },
+    {
+      "window": 3,
+      "train": {
+        "start": "2019-01-01",
+        "end": "2022-12-31",
+        "bars": 8766,
+        "total_return": 5.4124,
+        "sharpe": 15.0645,
+        "max_drawdown": -1.2687
+      },
+      "test": {
+        "start": "2023-01-01",
+        "end": "2023-12-31",
+        "bars": 2190,
+        "total_return": 0.7831,
+        "sharpe": 13.2509,
+        "max_drawdown": -1.2234
+      }
+    }
+  ],
+  "summary": {
+    "avg_test_sharpe": -6.4329,
+    "best_test_sharpe": 13.2509,
+    "worst_test_sharpe": -16.9975,
+    "avg_test_return": -0.0296,
+    "best_test_return": 0.7831,
+    "worst_test_return": -0.7905,
+    "avg_test_max_drawdown": -1.2117,
+    "worst_test_drawdown": -1.2687
+  }
+}

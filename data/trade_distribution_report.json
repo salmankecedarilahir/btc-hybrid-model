@@ -1,0 +1,78 @@
+{
+  "total_trade_bars": 177,
+  "descriptive": {
+    "mean": 11.84686,
+    "median": -0.645074,
+    "std": 93.213269,
+    "skewness": 0.4462,
+    "kurtosis": 4.0569
+  },
+  "percentiles": {
+    "pct_5": -101.403526,
+    "pct_95": 193.286094
+  },
+  "best_5_trades": [
+    {
+      "timestamp": "2025-07-10 16:00 UTC",
+      "close": 113436.83,
+      "signal": "LONG",
+      "risk_adjusted_return": 380.213511
+    },
+    {
+      "timestamp": "2026-01-14 08:00 UTC",
+      "close": 94706.01,
+      "signal": "LONG",
+      "risk_adjusted_return": 312.774345
+    },
+    {
+      "timestamp": "2024-02-27 20:00 UTC",
+      "close": 57085.37,
+      "signal": "LONG",
+      "risk_adjusted_return": 287.993041
+    },
+    {
+      "timestamp": "2020-07-26 20:00 UTC",
+      "close": 9905.17,
+      "signal": "LONG",
+      "risk_adjusted_return": 278.512739
+    },
+    {
+      "timestamp": "2025-05-08 16:00 UTC",
+      "close": 101135.89,
+      "signal": "LONG",
+      "risk_adjusted_return": 256.076174
+    }
+  ],
+  "worst_5_trades": [
+    {
+      "timestamp": "2024-03-05 12:00 UTC",
+      "close": 66919.59,
+      "signal": "LONG",
+      "risk_adjusted_return": -403.335883
+    },
+    {
+      "timestamp": "2024-07-16 00:00 UTC",
+      "close": 64785.95,
+      "signal": "LONG",
+      "risk_adjusted_return": -279.266252
+    },
+    {
+      "timestamp": "2024-11-12 04:00 UTC",
+      "close": 89142.8,
+      "signal": "LONG",
+      "risk_adjusted_return": -152.538104
+    },
+    {
+      "timestamp": "2024-11-18 12:00 UTC",
+      "close": 92421.39,
+      "signal": "LONG",
+      "risk_adjusted_return": -144.968336
+    },
+    {
+      "timestamp": "2026-01-14 20:00 UTC",
+      "close": 96932.21,
+      "signal": "LONG",
+      "risk_adjusted_return": -136.255993
+    }
+  ]
+}
